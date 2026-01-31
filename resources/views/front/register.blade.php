@@ -11,16 +11,24 @@
                         <h3 class="login-title text-center mb-4">
                             ثبت نام در سامانه
                         </h3>
-
-                        <form method="POST" action="#">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form method="POST" action="{{route('register.send')}}">
                             @csrf
 
                             <div class="row g-3">
 
                                 <!-- Title -->
                                 <div class="col-md-3">
-                                    <label class="form-label">عنوان</label>
-                                    <select name="title" class="form-select">
+                                    <label class="form-label required">عنوان</label>
+                                    <select name="title" class="form-select" required>
                                         @foreach($titles as $title)
                                             <option value="{{ $title->value }}">
                                                 {{ $title->name }}
@@ -30,24 +38,24 @@
                                 </div>
 
                                 <div class="col-md-5">
-                                    <label class="form-label">نام و نام خانوادگی</label>
-                                    <input type="text" name="name" class="form-control">
+                                    <label class="form-label required">نام و نام خانوادگی</label>
+                                    <input type="text" name="name" class="form-control" required>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label class="form-label">نام (انگلیسی)</label>
-                                    <input type="text" name="name_en" class="form-control" dir="ltr">
+                                    <label class="form-label required">نام (انگلیسی)</label>
+                                    <input type="text" name="name_en" class="form-control" dir="ltr" required>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label">پست الکترونیکی</label>
-                                    <input type="email" name="email" class="form-control">
+                                    <label class="form-label required">پست الکترونیکی</label>
+                                    <input type="email" name="email" class="form-control" required>
                                     <span class="text text-secondary" style="font-size: small">پست الکترونیکی برای بازیابی رمز عبور هم استفاده میشود از درست بودن ان اطمینان حاصل کنید.</span>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label">نام کاربری</label>
-                                    <input type="text" name="user_name" class="form-control" dir="ltr">
+                                    <label class="form-label required">نام کاربری</label>
+                                    <input type="text" name="user_name" class="form-control" dir="ltr" required>
                                     <span class="text text-secondary" style="font-size: small">برای ورود به سامانه استفاده میشود.</span>
                                 </div>
                                 <div class="col-md-6">
@@ -55,21 +63,21 @@
                                     <input type="email" name="email_help" class="form-control">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">کد ملی</label>
-                                    <input type="number" name="national_code" class="form-control">
+                                    <label class="form-label required">کد ملی</label>
+                                    <input type="number" name="national_code" class="form-control" required>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label">موبایل</label>
-                                    <input type="text" name="mobile" class="form-control">
+                                    <label class="form-label required">موبایل</label>
+                                    <input type="number" name="mobile" class="form-control" placeholder="09-------" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">فکس</label>
-                                    <input type="text" name="fax" class="form-control">
+                                    <input type="number" name="fax" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">شماره تلفن ثابت</label>
-                                    <input type="text" name="phone" class="form-control">
+                                    <input type="number" name="phone" class="form-control">
                                 </div>
 
                                 <div class="col-md-6">
@@ -77,31 +85,31 @@
                                     <input type="url" name="url" class="form-control">
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">شهر</label>
-                                    <input type="text" name="city" class="form-control">
+                                    <label class="form-label required">شهر</label>
+                                    <input type="text" name="city" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">شهر(انگلیسی)</label>
-                                    <input type="text" name="city_en" class="form-control">
+                                    <label class="form-label required">شهر(انگلیسی)</label>
+                                    <input type="text" name="city_en" class="form-control" dir="ltr" required>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label">وابستگی سازمانی</label>
+                                    <label class="form-label required">وابستگی سازمانی</label>
                                     <textarea type="text" name="organ" class="form-control" placeholder="گروه آموزشی، دانشکده، دانشگاه ، شهر، کشور / یا
-نام موسسه آموزشی، شهر، کشور                                      " rows="3"></textarea>
+نام موسسه آموزشی، شهر، کشور                                      " rows="3" required></textarea>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">وابستگی سازمانی(انگلیسی)</label>
-                                    <textarea type="text" name="organ_en" class="form-control" placeholder="Department, Faculty, University (Institution), City, Country" rows="3"></textarea>
+                                    <label class="form-label required">وابستگی سازمانی(انگلیسی)</label>
+                                    <textarea type="text" name="organ_en" class="form-control" placeholder="Department, Faculty, University (Institution), City, Country" rows="3" dir="ltr" required></textarea>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">کدپستی</label>
-                                    <input type="text" name="postal_code" class="form-control">
+                                    <input type="number" name="postal_code" class="form-control">
                                 </div>
                                 <!-- Education -->
                                 <div class="col-md-6">
-                                    <label class="form-label">مقطع تحصیلی</label>
-                                    <select name="education" class="form-select">
+                                    <label class="form-label required">مقطع تحصیلی</label>
+                                    <select name="education" class="form-select" required>
                                         @foreach($educations as $education)
                                             <option value="{{ $education->value }}">
                                                 {{ $education->name }}
@@ -111,8 +119,8 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label">رشته تحصیلی</label>
-                                    <select name="education_filed_id" class="form-select">
+                                    <label class="form-label required">رشته تحصیلی</label>
+                                    <select name="education_filed_id" class="form-select" required>
                                         @foreach($educationFields as $field)
                                             <option value="{{ $field->id }}">{{ $field->name }}</option>
                                         @endforeach
@@ -121,8 +129,8 @@
 
                                 <!-- Academic Rank -->
                                 <div class="col-md-6">
-                                    <label class="form-label">مرتبه علمی</label>
-                                    <select name="academic_rank" class="form-select">
+                                    <label class="form-label required">مرتبه علمی</label>
+                                    <select name="academic_rank" class="form-select" required>
                                         @foreach($academicRanks as $rank)
                                             <option value="{{ $rank->value }}">
                                                 {{ $rank->name }}
@@ -131,21 +139,21 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">  زمینه مورد علاقه پژوهش</label>
-                                    <input type="text" name="research_favorite" class="form-control">
+                                    <label class="form-label required">  زمینه مورد علاقه پژوهش</label>
+                                    <input type="text" name="research_favorite" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">     شناسه پژوهشگر(ORCID)</label>
-                                    <input type="text" name="orcid" class="form-control" placeholder="xxxx-xxxx-xxxx-xxxx">
+                                    <label class="form-label @if($isOrcidReq)required @endif">     شناسه پژوهشگر(ORCID)</label>
+                                    <input type="text" name="orcid" class="form-control" placeholder="xxxx-xxxx-xxxx-xxxx" dir="ltr" @if($isOrcidReq)required @endif>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label"> شماره کارت بانکی</label>
-                                    <input type="text" name="bank_card" class="form-control">
+                                    <input type="number" name="bank_card" class="form-control">
                                     <span class="text text-secondary" style="font-size: small">برای پرداخت های آینده سامانه به حساب شما</span>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label"> شماره شبا </label>
-                                    <input type="text" name="bank_account" class="form-control">
+                                    <input type="number" name="bank_account" class="form-control">
 
                                 </div>
                                 <div class="col-md-6">
@@ -164,13 +172,13 @@
 
                                 <!-- Password -->
                                 <div class="col-md-6">
-                                    <label class="form-label">رمز عبور</label>
-                                    <input type="password" name="password" class="form-control">
+                                    <label class="form-label required">رمز عبور</label>
+                                    <input type="text" name="password" class="form-control" required>
                                 </div>
 
                                 <div class="col-md-6">
-                                    <label class="form-label">تکرار رمز عبور</label>
-                                    <input type="password" name="password_confirmation" class="form-control">
+                                    <label class="form-label required">تکرار رمز عبور</label>
+                                    <input type="text" name="password_confirmation" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">توضیحات </label>

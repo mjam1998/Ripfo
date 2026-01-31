@@ -1666,7 +1666,10 @@ a{
 .register-link {
     font-weight: 600;
 }
-
+label.required::after {
+    content: ' *';
+    color: red;
+}
 .top-header {
     position: sticky;
     top: 0;

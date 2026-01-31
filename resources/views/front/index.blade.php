@@ -20,7 +20,7 @@
 
                     <!-- دکمه ورود -->
                     <div class="col-auto">
-                        <a href="#" class="btn side-btn"
+                        <a href="{{route('login')}}" class="btn side-btn"
                            style="background-color: #a89e45; color: white;  border-radius: 50px; font-size: 20px;">ورود به سامانه</a>
                     </div>
 

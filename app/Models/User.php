@@ -45,13 +45,14 @@ class User extends Authenticatable
         'is_juror_want',
         'orcid',
         'email_help',
-        'verify_code',
+
         'is_verified',
         'user_description',
         'bank_name',
         'bank_account',
         'bank_card',
-        'password'
+        'password',
+
 
     ];
 

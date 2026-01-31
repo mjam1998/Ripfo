@@ -35,7 +35,7 @@ return new class extends Migration
             $table->boolean('is_juror_want')->default(0);
             $table->string('orcid',20)->nullable();
             $table->string('email_help',300)->nullable();
-            $table->string('verify_code',20);
+
             $table->boolean('is_verified')->default(0);
             $table->text('user_description')->nullable();
             $table->string('bank_name',255)->nullable();

@@ -11,20 +11,31 @@
                         <h3 class="login-title text-center mb-4">
                             ورود به سامانه
                         </h3>
-
-                        <form method="POST" action="#">
+                        @if(session()->has('reset_password'))
+                            <p class="alert alert-success">{{session('reset_password')}}</p>
+                        @endif
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form method="POST" action="{{route('login.submit')}}">
                             @csrf
 
                             <!-- Username -->
                             <div class="mb-3">
                                 <label class="form-label">نام کاربری</label>
-                                <input type="text" class="form-control" placeholder="نام کاربری خود را وارد کنید">
+                                <input type="text" name="user_name" class="form-control" placeholder="نام کاربری خود را وارد کنید">
                             </div>
 
                             <!-- Password -->
                             <div class="mb-3">
                                 <label class="form-label">رمز عبور</label>
-                                <input type="password" class="form-control" placeholder="رمز عبور">
+                                <input type="text" name="password" class="form-control" placeholder="رمز عبور">
                             </div>
 
 
@@ -36,8 +47,8 @@
 
                             <!-- Links -->
                             <div class="login-links text-center mt-4">
-                                <a href="#" class="d-block mb-2">رمز عبور خود را فراموش کرده‌اید؟</a>
-                                <a href="#" class="register-link">ثبت نام در سامانه</a>
+                                <a href="{{route('forget.password')}}" class="d-block mb-2">رمز عبور خود را فراموش کرده‌اید؟</a>
+                                <a href="{{route('register')}}" class="register-link">ثبت نام در سامانه</a>
                             </div>
 
                         </form>

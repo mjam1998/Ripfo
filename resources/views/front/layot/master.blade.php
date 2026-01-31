@@ -34,7 +34,7 @@
                 </ul> <!-- اکشن‌ها -->
                 <div class="header-actions d-flex align-items-center">
                     <button class="btn btn-light btn-sm me-2">ENGLISH</button>
-                    <a href="#" class="nav-link text-white">ورود به سامانه</a>
+                    <a href="{{route('login')}}" class="nav-link text-white">ورود به سامانه</a>
                 </div>
             </div>
         </div>
