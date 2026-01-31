@@ -35,6 +35,7 @@ return new class extends Migration
             $table->unsignedBigInteger('visitor_number')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->string('period_number_pages',255)->nullable();
+            $table->string('juror_offer_name',255)->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

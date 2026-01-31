@@ -8,6 +8,7 @@ class EducationFiled extends Model
 {
     protected $fillable = [
         'name',
+        'name_en'
     ];
 
     public function users()
