@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     protected $fillable = [
-      'user_id',
+
       'period_number_id',
       'juror_id',
       'juror_offer_id',
@@ -17,8 +17,6 @@ class Article extends Model
       'title_en',
       'summary',
       'summary_en',
-      'writers',
-      'writers_en',
       'doi',
       'file_primary',
       'file_secondary',
@@ -37,8 +35,9 @@ class Article extends Model
       'status'=>ArticleStatus::class,
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
     public function periodNumber(){
         return $this->belongsTo(PeriodNumber::class);

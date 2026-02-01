@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+
             $table->unsignedBigInteger('period_number_id')->nullable();
             $table->unsignedBigInteger('juror_id')->nullable();
             $table->unsignedBigInteger('juror_offer_id')->nullable();
@@ -22,8 +22,6 @@ return new class extends Migration
             $table->string('title_en',300);
             $table->text('summary');
             $table->text('summary_en');
-            $table->text('writers')->nullable();
-            $table->text('writers_en')->nullable();
             $table->string('doi',200)->nullable();
             $table->string('file_primary',300);
             $table->string('file_secondary',300)->nullable();
@@ -38,7 +36,6 @@ return new class extends Migration
             $table->string('juror_offer_name',255)->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('period_number_id')->references('id')->on('period_numbers');
             $table->foreign('juror_id')->references('id')->on('users');
             $table->foreign('juror_offer_id')->references('id')->on('users');

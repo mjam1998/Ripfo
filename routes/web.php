@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\WriterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[FrontController::class,'index'])->name('home');
@@ -14,3 +15,10 @@ Route::get('/forget/password',[FrontController::class,'forgetPassword'])->name('
 Route::post('/forget/password/send',[FrontController::class,'forgetPasswordSend'])->name('forget.password.send');
 Route::get('/reset/password/show',[FrontController::class,'resetPasswordShow'])->name('reset.password.show');
 Route::post('/reset/password',[FrontController::class,'resetPassword'])->name('reset.password');
+
+Route::prefix('/panel')->middleware(['auth', 'role:writer|juror'])->group(function () {
+    Route::prefix('/writer')->group(function () {
+        Route::get('/',[WriterController::class,'index'])->name('writer.index');
+    });
+
+});

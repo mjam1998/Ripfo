@@ -148,8 +148,8 @@ public function registerSubmitShow()
        if( !Hash::check($request['password'], $user['password'])) {
            return back()->withErrors('اطلاعات کاربری یافت نشد.');
        }
-       /*auth()->login($user);*/
+       auth()->login($user);
 
-       return redirect()->route('home');
+       return redirect()->route('writer.index');
    }
 }

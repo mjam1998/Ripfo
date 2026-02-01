@@ -1,0 +1,3 @@
+@extends('panel.layout.master')
+
+

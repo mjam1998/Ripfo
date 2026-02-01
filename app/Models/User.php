@@ -90,8 +90,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Paid::class);
     }
-    public function articles(){
-        return $this->hasMany(Article::class);
+    public function articles()
+    {
+        return $this->belongsToMany(Article::class);
     }
     public function jurorArticles()
     {
