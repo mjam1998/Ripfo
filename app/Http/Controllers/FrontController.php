@@ -52,7 +52,7 @@ class FrontController extends Controller
        ]);
       /* SendVerificationEmailJob::dispatch($code, $request['email']);*/
        Mail::to($request->email)->send(new SendVerificationMail($code));
-      return route('register.submit.show');
+      return redirect()->route('register.submit.show');
 
    }
 public function registerSubmitShow()
@@ -81,9 +81,9 @@ public function registerSubmitShow()
        ]);
        $user->assignRole('writer');
        session()->forget(['register_data', 'verify_code','verify_code_expires_at']);
-       /*auth()->login($user);*/
+       auth()->login($user);
 
-       return redirect()->route('home');
+       return redirect()->route('writer.index');
 
    }
    public  function forgetPassword()

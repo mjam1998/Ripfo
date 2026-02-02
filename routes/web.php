@@ -17,8 +17,7 @@ Route::get('/reset/password/show',[FrontController::class,'resetPasswordShow'])-
 Route::post('/reset/password',[FrontController::class,'resetPassword'])->name('reset.password');
 
 Route::prefix('/panel')->middleware(['auth', 'role:writer|juror'])->group(function () {
-    Route::prefix('/writer')->group(function () {
-        Route::get('/',[WriterController::class,'index'])->name('writer.index');
-    });
 
+    Route::get('/',[WriterController::class,'index'])->name('writer.index');
+    Route::get('/article',[WriterController::class,'article'])->name('writer.article');
 });

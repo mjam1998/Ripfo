@@ -39,72 +39,74 @@
 
                                 <div class="col-md-5">
                                     <label class="form-label required">نام و نام خانوادگی</label>
-                                    <input type="text" name="name" class="form-control" required>
+                                    <input type="text" name="name" value="{{old('name')}}" class="form-control" required>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label class="form-label required">نام (انگلیسی)</label>
-                                    <input type="text" name="name_en" class="form-control" dir="ltr" required>
+                                    <input type="text" name="name_en" value="{{old('name_en')}}" class="form-control" dir="ltr" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label required">پست الکترونیکی</label>
-                                    <input type="email" name="email" class="form-control" required>
+                                    <input type="email" name="email" value="{{old('email')}}" class="form-control" required>
                                     <span class="text text-secondary" style="font-size: small">پست الکترونیکی برای بازیابی رمز عبور هم استفاده میشود از درست بودن ان اطمینان حاصل کنید.</span>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label required">نام کاربری</label>
-                                    <input type="text" name="user_name" class="form-control" dir="ltr" required>
+                                    <input type="text" name="user_name" value="{{old('user_name')}}" class="form-control" dir="ltr" required>
                                     <span class="text text-secondary" style="font-size: small">برای ورود به سامانه استفاده میشود.</span>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">پست الکترونیکی کمکی</label>
-                                    <input type="email" name="email_help" class="form-control">
+                                    <input type="email" name="email_help" value="{{old('email_help')}}" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label required">کد ملی</label>
-                                    <input type="number" name="national_code" class="form-control" required>
+                                    <input type="text" name="national_code" value="{{old('national_code')}}" class="form-control" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label required">موبایل</label>
-                                    <input type="number" name="mobile" class="form-control" placeholder="09-------" required>
+                                    <input type="text" name="mobile" value="{{old('mobile')}}" class="form-control" placeholder="09-------" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">فکس</label>
-                                    <input type="number" name="fax" class="form-control">
+                                    <input type="text" name="fax" value="{{old('fax')}}" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">شماره تلفن ثابت</label>
-                                    <input type="number" name="phone" class="form-control">
+                                    <input type="text" name="phone" value="{{old('phone')}}" class="form-control">
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label">ادرس صفحه اینترنتی</label>
-                                    <input type="url" name="url" class="form-control">
+                                    <input type="url" name="url" value="{{old('url')}}" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label required">شهر</label>
-                                    <input type="text" name="city" class="form-control" required>
+                                    <input type="text" name="city" value="{{old('city')}}" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label required">شهر(انگلیسی)</label>
-                                    <input type="text" name="city_en" class="form-control" dir="ltr" required>
+                                    <input type="text" name="city_en" value="{{old('city_en')}}" class="form-control" dir="ltr" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label required">وابستگی سازمانی</label>
-                                    <textarea type="text" name="organ" class="form-control" placeholder="گروه آموزشی، دانشکده، دانشگاه ، شهر، کشور / یا
-نام موسسه آموزشی، شهر، کشور                                      " rows="3" required></textarea>
+                                    <textarea type="text" name="organ"  class="form-control" placeholder="گروه آموزشی، دانشکده، دانشگاه ، شهر، کشور / یا
+نام موسسه آموزشی، شهر، کشور                                      " rows="3" required>{{old('organ')}}</textarea>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label required">وابستگی سازمانی(انگلیسی)</label>
-                                    <textarea type="text" name="organ_en" class="form-control" placeholder="Department, Faculty, University (Institution), City, Country" rows="3" dir="ltr" required></textarea>
+                                    <textarea type="text" name="organ_en" class="form-control" placeholder="Department, Faculty, University (Institution), City, Country" rows="3" dir="ltr" required>
+                                        {{old('organ_en')}}
+                                    </textarea>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">کدپستی</label>
-                                    <input type="number" name="postal_code" class="form-control">
+                                    <input type="text" name="postal_code" value="{{old('postal_code')}}" class="form-control">
                                 </div>
                                 <!-- Education -->
                                 <div class="col-md-6">
@@ -127,7 +129,7 @@
                                     </select>
                                 </div>
 
-                                <!-- Academic Rank -->
+
                                 <div class="col-md-6">
                                     <label class="form-label required">مرتبه علمی</label>
                                     <select name="academic_rank" class="form-select" required>
@@ -138,27 +140,30 @@
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="col-md-6">
-                                    <label class="form-label required">  زمینه مورد علاقه پژوهش</label>
-                                    <input type="text" name="research_favorite" class="form-control" required>
+                                    <label class="form-label required"> زمینه مورد علاقه پژوهش  </label>
+                                    <input type="text" name="research_favorite" value="{{old('research_favorite')}}" class="form-control" required>
                                 </div>
+
                                 <div class="col-md-6">
                                     <label class="form-label @if($isOrcidReq)required @endif">     شناسه پژوهشگر(ORCID)</label>
-                                    <input type="text" name="orcid" class="form-control" placeholder="xxxx-xxxx-xxxx-xxxx" dir="ltr" @if($isOrcidReq)required @endif>
+                                    <input type="text" name="orcid" value="{{old('orcid')}}" class="form-control" placeholder="xxxx-xxxx-xxxx-xxxx" dir="ltr" @if($isOrcidReq)required @endif>
                                 </div>
+
                                 <div class="col-md-6">
                                     <label class="form-label"> شماره کارت بانکی</label>
-                                    <input type="number" name="bank_card" class="form-control">
+                                    <input type="text" name="bank_card" value="{{old('bank_card')}}" class="form-control">
                                     <span class="text text-secondary" style="font-size: small">برای پرداخت های آینده سامانه به حساب شما</span>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label"> شماره شبا </label>
-                                    <input type="number" name="bank_account" class="form-control">
+                                    <input type="text" name="bank_account" value="{{old('bank_account')}}" class="form-control">
 
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label"> نام بانک </label>
-                                    <input type="text" name="bank_name" class="form-control">
+                                    <input type="text" name="bank_name" value="{{old('bank_name')}}" class="form-control">
 
                                 </div>
                                 <div class="col-md-6">
@@ -182,7 +187,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">توضیحات </label>
-                                    <textarea type="text" name="user_description" class="form-control" placeholder="توضیحات برای ادمین" rows="3"></textarea>
+                                    <textarea type="text" name="user_description" class="form-control" placeholder="توضیحات برای ادمین" rows="3">
+                                      {{old('user_description')}}
+                                    </textarea>
                                 </div>
                             </div>
 

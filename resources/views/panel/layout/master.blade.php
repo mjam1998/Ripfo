@@ -34,16 +34,16 @@
         <ul>
 
             <li><a href="{{route('writer.index')}}"  class=""><i class="bi bi-vector-pen"></i> داشبورد نویسنده</a></li>
-            <li><a href="{{route('writer.index')}}"  class=""><i class="bi bi-file-text"></i> ثبت مقاله جدید</a></li>
+            <li><a href="{{route('writer.article')}}"  class=""><i class="bi bi-file-text"></i> ثبت مقاله جدید</a></li>
 
 
-            <li><a href="#"  class=""><img class="img-fluid imm me-2" style="width:20px; height: 20px;"  src="{{asset('userpanel/img/logout.2.png')}}" alt=""> بازگشت به سایت</a></li>
+            <li><a href="#"  class=""><i class="bi bi-box-arrow-right"></i> بازگشت به سایت</a></li>
 
         </ul>
     </div>
 
     <div class="sidebar-footer">
-        <a href="#" style="color: red;"><i class="fas fa-sign-out-alt"></i> خروج از حساب کاربری</a>
+        <a href="#" style="color: red;"><i class="bi bi-escape"></i> خروج از حساب کاربری</a>
     </div>
 </div>
 
