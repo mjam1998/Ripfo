@@ -20,4 +20,5 @@ Route::prefix('/panel')->middleware(['auth', 'role:writer|juror'])->group(functi
 
     Route::get('/',[WriterController::class,'index'])->name('writer.index');
     Route::get('/article',[WriterController::class,'article'])->name('writer.article');
+    Route::post('/article/store',[WriterController::class,'articleStore'])->name('writer.article.store');
 });

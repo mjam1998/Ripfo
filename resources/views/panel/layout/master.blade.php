@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{asset('front/aaset/bootstrap-icons.css')}}">
 
     <link href="{{ asset('userpanel/css/app.css') }}" rel="stylesheet">
+    <link href="{{asset('userpanel/choises/choices.min.css')}}" rel="stylesheet" />
+
 
 
 </head>
@@ -93,6 +95,8 @@
     </div>
     <!-- Bootstrap JS -->
     <script src="{{asset('front/aaset/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('userpanel/select2/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{asset('userpanel/choises/choices.min.js')}}"></script>
     <script>
 
 
@@ -143,6 +147,7 @@
 
     </script>
 
+    @stack('scripts')
 
 </div>
 </body>
