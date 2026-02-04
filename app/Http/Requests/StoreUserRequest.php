@@ -38,7 +38,7 @@ class StoreUserRequest extends FormRequest
             'user_name' => ['required', 'string', 'max:255', 'unique:users,user_name', new UserNameRule()],
             'national_code' => ['required', 'string', 'max:20', 'unique:users,national_code',new Nationalcode()],
 
-            'mobile' => ['required', 'string', 'max:20',new Cellphone()],
+            'mobile' => ['required', 'string', 'max:20','unique:users,mobile',new Cellphone()],
             'fax' => ['nullable', 'string', 'max:30',new PhoneRule()],
             'phone' => ['nullable', 'string', 'max:20',new PhoneRule()],
 
@@ -69,8 +69,8 @@ class StoreUserRequest extends FormRequest
             'is_juror_want' => ['nullable', 'boolean'],
 
             'bank_name' => ['nullable', 'string', 'max:255'],
-            'bank_card' => ['nullable', 'string', 'max:20',new NumberRule()],
-            'bank_account' => ['nullable', 'string', 'max:30', new NumberRule()],
+            'bank_card' => ['nullable', 'string', 'max:20'],
+            'bank_account' => ['nullable', 'string', 'max:30'],
 
             'user_description' => ['nullable', 'string'],
 

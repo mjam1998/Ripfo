@@ -13,6 +13,8 @@
 
 
 
+    @livewireStyles
+
 </head>
 <body>
 
@@ -35,9 +37,10 @@
     <div class="nav-menu">
         <ul>
 
-            <li><a href="{{route('writer.index')}}"  class=""><i class="bi bi-vector-pen"></i> داشبورد نویسنده</a></li>
+            <li><a href="{{route('writer.index')}}"  class=""><i class="bi bi-vector-pen"></i> داشبورد نویسندگی</a></li>
             <li><a href="{{route('writer.article')}}"  class=""><i class="bi bi-file-text"></i> ثبت مقاله جدید</a></li>
-
+            <li><a href="{{route('writer.articles')}}"  class=""><i class="bi bi-layout-text-sidebar"></i> لیست مقالات نویسندگی</a></li>
+            <li><a href="{{route('writer.user.information')}}"  class=""><i class="bi bi-person-gear"></i> اطلاعات حساب کاربری</a></li>
 
             <li><a href="#"  class=""><i class="bi bi-box-arrow-right"></i> بازگشت به سایت</a></li>
 
@@ -97,6 +100,8 @@
     <script src="{{asset('front/aaset/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('userpanel/select2/jquery-3.6.0.min.js')}}"></script>
     <script src="{{asset('userpanel/choises/choices.min.js')}}"></script>
+    <script src="{{asset('userpanel/list/list.js')}}"></script>
+    @livewireScripts
     <script>
 
 

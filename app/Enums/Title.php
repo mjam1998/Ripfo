@@ -11,8 +11,8 @@ enum Title:int
     {
         return match ($this) {
             self::Dr  => 'دکتر',
-            self::Mr  => 'خانم',
-            self::Mrs => 'آقای',
+            self::Mr  => 'آقای',
+            self::Mrs => 'خانم',
         };
     }
 

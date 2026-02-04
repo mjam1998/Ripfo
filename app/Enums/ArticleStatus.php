@@ -11,5 +11,19 @@ enum ArticleStatus:int
     case Cancel=4;
     case AcceptedFinalReview=5;
     case Accepted=6;
+    case Rejected=7;
+    public function falabel(): string
+    {
+        return match ($this) {
+            self::SendedReview  => ' ارسال شده/در حال بررسی',
+            self::NeedReSend  => ' نیازمند ارسال دوباره',
+            self::NeedEdit => ' نیازمند بازنگری',
+            self::EditedReview  => 'بازنگری شده/درحال بررسی',
+            self::Cancel  => 'لغو شده توسط نویسنده',
+            self::AcceptedFinalReview  => 'پذیرفته شده بررسی فایل های نهایی قبل از انتشار',
+            self::Accepted  => 'تایید و منتشر شده',
+            self::Rejected  => 'رد شده',
+        };
+    }
 
 }

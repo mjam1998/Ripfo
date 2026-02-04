@@ -1332,4 +1332,41 @@ label.required::after {
     content: ' *';
     color: red;
 }
+.tabulator {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.tabulator .tabulator-header {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.tabulator .tabulator-row:hover {
+    background-color: #e9ecef;
+}
+
+.tabulator .tabulator-cell {
+    border-right: 1px solid #dee2e6;
+}
+
+.tabulator .tabulator-paginator {
+    padding: 0.5rem;
+}
+
+.tabulator .tabulator-paginator .tabulator-page {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin: 0 2px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tabulator .tabulator-paginator .tabulator-page.tabulator-active {
+    background-color: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
+}
 

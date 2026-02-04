@@ -22,6 +22,7 @@ class FrontController extends Controller
 {
    public function index(){
 
+
        return view('front.index');
    }
    public function login(){
@@ -142,6 +143,7 @@ public function registerSubmitShow()
            'password'=>['required','string'],
        ]);
        $user=User::query()->where('user_name',$request['user_name'])->first();
+
        if (!$user) {
            return back()->withErrors('اطلاعات کاربری یافت نشد.');
        }

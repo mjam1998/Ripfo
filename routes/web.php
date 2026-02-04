@@ -21,4 +21,13 @@ Route::prefix('/panel')->middleware(['auth', 'role:writer|juror'])->group(functi
     Route::get('/',[WriterController::class,'index'])->name('writer.index');
     Route::get('/article',[WriterController::class,'article'])->name('writer.article');
     Route::post('/article/store',[WriterController::class,'articleStore'])->name('writer.article.store');
+    Route::get('/user/information',[WriterController::class,'userInformation'])->name('writer.user.information');
+    Route::post('/user/information/update',[WriterController::class,'userInformationUpdate'])->name('writer.user.information.update');
+    Route::get('/articles',[WriterController::class,'articles'])->name('writer.articles');
+    Route::get('/jurors/search',[WriterController::class,'jurorsSearch'])->name('writer.jurors.search');
+    Route::get('/writers/search', [WriterController::class, 'searchWriters'])->name('writers.search');
+    Route::get('/keywords/search', [WriterController::class, 'search'])->name('keywords.search');
+    Route::get('/article/detail/{article}',[WriterController::class,'articleDetail'])->name('writer.article.detail');
+    Route::post('/article/cancel/{article}',[WriterController::class,'articleCancel'])->name('writer.article.cancel');
+
 });

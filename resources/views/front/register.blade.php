@@ -64,20 +64,20 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label required">کد ملی</label>
-                                    <input type="text" name="national_code" value="{{old('national_code')}}" class="form-control" required>
+                                    <input type="text" name="national_code" dir="ltr" value="{{old('national_code')}}" class="form-control" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label required">موبایل</label>
-                                    <input type="text" name="mobile" value="{{old('mobile')}}" class="form-control" placeholder="09-------" required>
+                                    <input type="text" name="mobile" dir="ltr" value="{{old('mobile')}}" class="form-control" placeholder="09-------" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">فکس</label>
-                                    <input type="text" name="fax" value="{{old('fax')}}" class="form-control">
+                                    <input type="text" name="fax"  dir="ltr" value="{{old('fax')}}" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">شماره تلفن ثابت</label>
-                                    <input type="text" name="phone" value="{{old('phone')}}" class="form-control">
+                                    <input type="text" name="phone" dir="ltr" value="{{old('phone')}}" class="form-control">
                                 </div>
 
                                 <div class="col-md-6">
@@ -110,7 +110,7 @@
                                 </div>
                                 <!-- Education -->
                                 <div class="col-md-6">
-                                    <label class="form-label required">مقطع تحصیلی</label>
+                                    <label class="form-label required"> تحصیلات</label>
                                     <select name="education" class="form-select" required>
                                         @foreach($educations as $education)
                                             <option value="{{ $education->value }}">
@@ -153,12 +153,12 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label"> شماره کارت بانکی</label>
-                                    <input type="text" name="bank_card" value="{{old('bank_card')}}" class="form-control">
+                                    <input type="text" name="bank_card" dir="ltr" value="{{old('bank_card')}}" class="form-control">
                                     <span class="text text-secondary" style="font-size: small">برای پرداخت های آینده سامانه به حساب شما</span>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label"> شماره شبا </label>
-                                    <input type="text" name="bank_account" value="{{old('bank_account')}}" class="form-control">
+                                    <input type="text" dir="ltr" name="bank_account" value="{{old('bank_account')}}" class="form-control">
 
                                 </div>
                                 <div class="col-md-6">
@@ -187,8 +187,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">توضیحات </label>
-                                    <textarea type="text" name="user_description" class="form-control" placeholder="توضیحات برای ادمین" rows="3">
-                                      {{old('user_description')}}
+                                    <textarea type="text" name="user_description" class="form-control" placeholder="توضیحات برای ادمین" rows="3">{{old('user_description')}}
                                     </textarea>
                                 </div>
                             </div>

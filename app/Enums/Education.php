@@ -12,4 +12,17 @@ enum Education:int
     case BachelorDegree=6;
     case Else=7;
 
+    public function falabel(): string
+    {
+        return match ($this) {
+            self::DrTechnical  => 'دکترای تخصصی',
+            self::DrMedical  => 'دکترای پزشکی',
+            self::PhdStudent => 'دانشجوی دکتری',
+            self::MasterDegree  => 'کارشناسی ارشد',
+            self::MasterDegreeStudent  => 'دانشجوی ارشد',
+            self::BachelorDegree  => 'کارشناسی',
+            self::Else  => 'سایر',
+        };
+    }
+
 }
