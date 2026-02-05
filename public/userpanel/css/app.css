@@ -1370,3 +1370,88 @@ label.required::after {
     border-color: #0d6efd;
 }
 
+/* استایل‌های submenu */
+.nav-menu .has-submenu {
+    position: relative;
+}
+
+.nav-menu .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.submenu-arrow {
+    margin-right: auto;
+    margin-left: 0;
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.has-submenu.active .submenu-arrow {
+    transform: rotate(180deg);
+}
+
+.submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-top: 5px;
+}
+
+.has-submenu.active .submenu {
+    max-height: 500px;
+    opacity: 1;
+    padding: 8px 0;
+}
+
+.submenu li {
+    margin-bottom: 0;
+}
+
+.submenu a {
+    padding: 10px 15px 10px 45px !important;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.submenu a i {
+    font-size: 12px;
+    margin-left: 10px;
+    width: 16px;
+}
+
+.submenu a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(-3px);
+}
+
+/* برای حالتی که منو باز است */
+.has-submenu.active > .menu-toggle {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* انیمیشن نرم */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.has-submenu.active .submenu {
+    animation: slideDown 0.3s ease;
+}

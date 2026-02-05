@@ -39,7 +39,19 @@
 
             <li><a href="{{route('writer.index')}}"  class=""><i class="bi bi-vector-pen"></i> داشبورد نویسندگی</a></li>
             <li><a href="{{route('writer.article')}}"  class=""><i class="bi bi-file-text"></i> ثبت مقاله جدید</a></li>
-            <li><a href="{{route('writer.articles')}}"  class=""><i class="bi bi-layout-text-sidebar"></i> لیست مقالات نویسندگی</a></li>
+            <li class="has-submenu">
+                <a href="javascript:void(0)" class="menu-toggle">
+                    <i class="bi bi-layout-text-sidebar"></i> لیست مقالات نویسندگی
+                  
+                </a>
+                <ul class="submenu">
+                    <li><a href="{{route('writer.articles')}}?status=all"><i class="bi bi-circle"></i> همه مقالات</a></li>
+                    <li><a href="{{route('writer.articles')}}?status=published"><i class="bi bi-check-circle"></i> مقالات منتشر شده</a></li>
+                    <li><a href="{{route('writer.articles')}}?status=draft"><i class="bi bi-pencil-square"></i> پیش‌نویس‌ها</a></li>
+                    <li><a href="{{route('writer.articles')}}?status=pending"><i class="bi bi-clock-history"></i> در انتظار تایید</a></li>
+                    <li><a href="{{route('writer.articles')}}?status=rejected"><i class="bi bi-x-circle"></i> رد شده</a></li>
+                </ul>
+            </li>
             <li><a href="{{route('writer.user.information')}}"  class=""><i class="bi bi-person-gear"></i> اطلاعات حساب کاربری</a></li>
 
             <li><a href="#"  class=""><i class="bi bi-box-arrow-right"></i> بازگشت به سایت</a></li>
@@ -149,6 +161,37 @@
             a.click();
             document.body.removeChild(a);
         }
+// Toggle submenu
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggles = document.querySelectorAll('.menu-toggle');
+    
+    menuToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            const parentLi = this.closest('.has-submenu');
+            const wasActive = parentLi.classList.contains('active');
+            
+            // بستن همه submenuها
+            document.querySelectorAll('.has-submenu').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // اگر قبلاً باز نبود، بازش کن
+            if (!wasActive) {
+                parentLi.classList.add('active');
+            }
+        });
+    });
+    
+    // بستن submenu با کلیک خارج از آن
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.has-submenu')) {
+            document.querySelectorAll('.has-submenu').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+    });
+});
 
     </script>
 
