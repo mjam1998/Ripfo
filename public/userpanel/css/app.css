@@ -1455,3 +1455,46 @@ label.required::after {
 .has-submenu.active .submenu {
     animation: slideDown 0.3s ease;
 }
+.sidebar {
+    width: 280px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* مهم */
+}
+
+/* هدر ثابت */
+.sidebar-header {
+    flex-shrink: 0;
+}
+
+/* منو اسکرول‌دار */
+.nav-menu {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+/* فوتر ثابت */
+.sidebar-footer {
+    flex-shrink: 0;
+}
+.nav-menu {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
+    isolation: isolate;
+}
+
+.nav-menu li {
+    overflow: hidden;
+}
+
+.sidebar-footer {
+    position: relative;
+    z-index: 2;
+    background: #a89e45;
+}

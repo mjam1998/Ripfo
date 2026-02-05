@@ -24,11 +24,16 @@
 <!-- Sidebar -->
 <div class="sidebar" id="side1" >
     <div class="sidebar-header" >
-        <div class="user-avatar " ><img class="img-fluid " style="width:30px; height: 30px;"  src="{{asset('userpanel/img/store-03.2.png')}}" alt=""></div>
+        <div style="font-size: xxx-large; margin-left: 15px" ><i class="bi bi-person-circle"></i></div>
         <div class="user-info">
             <div class="user-name mt-3"><p style="font-size: small"></p></div>
+            {{auth()->user()->name}}
+            <div  class="user-status" style="font-size: medium;color: blue">
+                @foreach(auth()->user()->roles as $role)
+                    {{ \App\Enums\RolesName::fromRole($role->name) }} <br>
+                @endforeach
 
-            <div  class="user-status">
+
 
             </div>
         </div>
@@ -42,14 +47,19 @@
             <li class="has-submenu">
                 <a href="javascript:void(0)" class="menu-toggle">
                     <i class="bi bi-layout-text-sidebar"></i> لیست مقالات نویسندگی
-                  
+
                 </a>
                 <ul class="submenu">
-                    <li><a href="{{route('writer.articles')}}?status=all"><i class="bi bi-circle"></i> همه مقالات</a></li>
-                    <li><a href="{{route('writer.articles')}}?status=published"><i class="bi bi-check-circle"></i> مقالات منتشر شده</a></li>
-                    <li><a href="{{route('writer.articles')}}?status=draft"><i class="bi bi-pencil-square"></i> پیش‌نویس‌ها</a></li>
-                    <li><a href="{{route('writer.articles')}}?status=pending"><i class="bi bi-clock-history"></i> در انتظار تایید</a></li>
-                    <li><a href="{{route('writer.articles')}}?status=rejected"><i class="bi bi-x-circle"></i> رد شده</a></li>
+
+                    <li><a href="{{ route('writer.articles', \App\Enums\ArticleStatus::SendedReview->value) }}" style="font-size: small"><i class="bi bi-pencil-square"></i>  ارسال شده/در حال بررسی</a></li>
+                    <li><a href="{{ route('writer.articles', \App\Enums\ArticleStatus::NeedReSend->value) }}" style="font-size: small"><i class="bi bi-pencil-square"></i>  نیازمند ارسال دوباره</a></li>
+                    <li><a href="{{ route('writer.articles', \App\Enums\ArticleStatus::NeedEdit->value) }}" style="font-size: small"><i class="bi bi-pencil-square"></i>  نیازمند بازنگری</a></li>
+                    <li><a href="{{ route('writer.articles', \App\Enums\ArticleStatus::EditedReview->value) }}" style="font-size: small"><i class="bi bi-pencil-square"></i>  بازنگری شده/درحال بررسی</a></li>
+                    <li><a href="{{ route('writer.articles', \App\Enums\ArticleStatus::AcceptedFinalReview->value) }}" style="font-size: small"><i class="bi bi-pencil-square"></i>  پذیرفته شده بررسی نهایی </a></li>
+                    <li><a href="{{ route('writer.articles', \App\Enums\ArticleStatus::Accepted->value) }}" style="font-size: small"><i class="bi bi-pencil-square"></i>  منتشر شده</a></li>
+                    <li><a href="{{ route('writer.articles', \App\Enums\ArticleStatus::Rejected->value) }}" style="font-size: small"><i class="bi bi-pencil-square"></i>  رد شده</a></li>
+                    <li><a href="{{ route('writer.articles', \App\Enums\ArticleStatus::Cancel->value) }}" style="font-size: small"><i class="bi bi-pencil-square"></i>  لغو شده توسط نویسنده</a></li>
+
                 </ul>
             </li>
             <li><a href="{{route('writer.user.information')}}"  class=""><i class="bi bi-person-gear"></i> اطلاعات حساب کاربری</a></li>
@@ -60,7 +70,7 @@
     </div>
 
     <div class="sidebar-footer">
-        <a href="#" style="color: red;"><i class="bi bi-escape"></i> خروج از حساب کاربری</a>
+        <a href="{{route('writer.logout')}}" style="color: red;"><i class="bi bi-escape"></i> خروج از حساب کاربری</a>
     </div>
 </div>
 
@@ -164,25 +174,25 @@
 // Toggle submenu
 document.addEventListener('DOMContentLoaded', function() {
     const menuToggles = document.querySelectorAll('.menu-toggle');
-    
+
     menuToggles.forEach(toggle => {
         toggle.addEventListener('click', function(e) {
             e.preventDefault();
             const parentLi = this.closest('.has-submenu');
             const wasActive = parentLi.classList.contains('active');
-            
+
             // بستن همه submenuها
             document.querySelectorAll('.has-submenu').forEach(item => {
                 item.classList.remove('active');
             });
-            
+
             // اگر قبلاً باز نبود، بازش کن
             if (!wasActive) {
                 parentLi.classList.add('active');
             }
         });
     });
-    
+
     // بستن submenu با کلیک خارج از آن
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.has-submenu')) {

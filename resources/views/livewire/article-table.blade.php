@@ -50,11 +50,11 @@
                     {{ \Illuminate\Support\Str::limit($article->title, 25) }}
                 </td>
                 <td class=" gap-2" style="text-align: center;">
-                    <a href="{{ route('writer.article.detail', $article) }}" class="btn btn-sm btn-primary">
+                    <a href="{{ route('writer.article.detail', $article->code) }}" class="btn btn-sm btn-primary">
                         جزئیات
                     </a>
 
-                    <a href="{{ route('writer.article.cancel', $article) }}" class="btn btn-sm btn-primary"  style="background-color: red;color: white;"  onclick="return confirm('آیا مطمئن هستید؟')">
+                    <a href="{{ route('writer.article.cancel', $article->code) }}" class="btn btn-sm btn-primary"  style="background-color: red;color: white;"  onclick="return confirm('آیا مطمئن هستید؟')">
                         لغو مقاله
                     </a>
                 </td>

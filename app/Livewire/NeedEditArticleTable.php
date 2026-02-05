@@ -36,7 +36,10 @@ class NeedEditArticleTable extends Component
 
     public function render()
     {
-        $articles = Article::query()
+        $user=auth()->user();
+        $articlesList=$user->articles();
+
+        $articles = $articlesList
             ->where('status', ArticleStatus::NeedEdit->value)
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
@@ -46,7 +49,7 @@ class NeedEditArticleTable extends Component
                 });
             })
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-            ->paginate(3);
+            ->paginate(10);
 
         return view('livewire.article-table', compact('articles'));
     }

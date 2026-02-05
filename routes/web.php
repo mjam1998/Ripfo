@@ -26,8 +26,14 @@ Route::prefix('/panel')->middleware(['auth', 'role:writer|juror'])->group(functi
     Route::get('/jurors/search',[WriterController::class,'jurorsSearch'])->name('writer.jurors.search');
     Route::get('/writers/search', [WriterController::class, 'searchWriters'])->name('writers.search');
     Route::get('/keywords/search', [WriterController::class, 'search'])->name('keywords.search');
-    Route::get('/article/detail/{article}',[WriterController::class,'articleDetail'])->name('writer.article.detail');
-    Route::post('/article/cancel/{article}',[WriterController::class,'articleCancel'])->name('writer.article.cancel');
-    Route::get('/articles/status/accepted',[WriterController::class,'statusAccepted'])->name('writer.articles.status.accepted');
-  
+    Route::get('/article/detail/{code}',[WriterController::class,'articleDetail'])->name('writer.article.detail');
+    Route::post('/article/cancel/{code}',[WriterController::class,'articleCancel'])->name('writer.article.cancel');
+    Route::get('/articles/{status}',[WriterController::class,'articles'])->name('writer.articles');
+    Route::get('/article/download/primary/{code}',[WriterController::class,'articleDownload'])->name('writer.article.download');
+    Route::get('/article/download/secondary/{code}',[WriterController::class,'articleDownloadSecond'])->name('writer.article.download.second');
+    Route::get('/article/download/juror/{code}',[WriterController::class,'articleDownloadJuror'])->name('writer.article.download.juror');
+
+    Route::get('/logout',[WriterController::class,'logout'])->name('writer.logout');
+
+
 });
