@@ -23,7 +23,7 @@
                 </div>
             @endif
             <div class="panel-body mt-4">
-                <form method="post" action="{{route('writer.article.store')}}" enctype="multipart/form-data" >
+                <form method="post" action="{{route('writer.article.edit',$article)}}" enctype="multipart/form-data" >
                     @csrf
                     <div class="row g-3">
                         <div class="col-md-4">
@@ -55,7 +55,7 @@
                                 <label class="control-label">داور پیشنهادی</label>
                                 <select id="juror_offer_id"
                                         class="form-control"
-                                        name="juror_offer_id" @if($isEdit==false)disabled  @endif>
+                                         disabled  >
                                     @if(isset($article) && $article->juror_offer_id)
                                         <option value="{{ $article->juror_offer_id }}" selected>
                                             {{ $article->jurorOffer->title->falabel() }}  {{ $article->jurorOffer->name ?? '' }}   {{ $article->jurorOffer->organ }}
@@ -68,7 +68,7 @@
                         <div class="col-md-4 d-none" id="jurorNameWrapper">
                             <div class="form-group">
                                 <label  class="control-label " > نام داور پیشنهادی</label>
-                                <input  type="text" class="form-control " name="juror_offer_name"  value="{{ old('juror_offer_name') ?? $article->juror_offer_name}}" @if($isEdit==false)disabled  @endif>
+                                <input  type="text" class="form-control "   value="{{ old('juror_offer_name') ?? $article->juror_offer_name}}" disabled>
                                 <span style="font-size: small;color: grey" >نام و نام خانوادگی داور به همراه اسم دانشگاه یا سازمان مربوطه</span>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label  class="control-label " > توضیحات داور برای نویسنده</label>
-                                <textarea type="text" class="form-control auto-resize" name="summary" rows="3" disabled>{{ $article->juror_des_writer}}
+                                <textarea type="text" class="form-control auto-resize"   rows="3" disabled>{{ $article->juror_des_writer}}
                                 </textarea>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label  class="control-label " > توضیحات نویسنده برای داور</label>
-                                <textarea type="text" class="form-control auto-resize" name="summary" rows="3" @if($isEdit==false)disabled  @endif>{{old('writer_des_juror') ?? $article->writer_des_juror}}
+                                <textarea type="text" class="form-control auto-resize" name="writer_des_juror"  rows="3" @if($isEdit==false)disabled  @endif>{{old('writer_des_juror') ?? $article->writer_des_juror}}
                                 </textarea>
                             </div>
                         </div>

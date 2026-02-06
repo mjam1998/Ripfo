@@ -15,7 +15,9 @@ use App\Models\Required;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class WriterController extends Controller
@@ -285,6 +287,82 @@ class WriterController extends Controller
     {
         auth()->logout();
         return redirect('/');
+    }
+    public function articleCancel(string $code)
+    {
+        $user = auth()->user();
+        $article = $user->articles()->where('code', $code)->firstOrFail();
+        if($article->status==\App\Enums\ArticleStatus::SendedReview
+        ||$article->status==\App\Enums\ArticleStatus::NeedReSend
+        ||$article->status==\App\Enums\ArticleStatus::NeedEdit
+        ||$article->status==\App\Enums\ArticleStatus::EditedReview)
+        {
+            $article->update([
+               'status' => \App\Enums\ArticleStatus::Cancel,
+            ]);
+            return redirect()->back()->with('article-cancel-message','مقاله توسط نویسنده لغو شد.');
+        }
+        return redirect()->back()->with('article-cancel-message','مقاله در این وضعیت مجاز به لغو کردن نمیباشد.');
+
+    }
+    public function articleEdit(StoreArticleRequest $request,Article $article)
+    {
+
+        $user = auth()->user();
+
+        $hasAccess = $user->articles()
+            ->where('articles.id', $article->id)
+            ->exists();
+
+        if (! $hasAccess) {
+
+            return redirect()->back()->withErrors('شما مجاز با ویرایش مقاله نیستید.');
+        }
+        if (! in_array($article->status, [ArticleStatus::NeedReSend, ArticleStatus::NeedEdit])) {
+            return redirect()->back()->withErrors('مقاله در این وضعیت مجاز به ویرایش نمیباشد.');
+        }
+
+        $writers = $request->input('writers_id');
+
+
+        $fileSecondaryName=$article->file_secondary;
+        File::delete(public_path('articles/' . $article->file_primary));
+        $filePrimaryExtension = $request->file_primary->getClientOriginalExtension();
+        $filePrimaryName = $article->code . "." . $filePrimaryExtension;
+        $request->file_primary->storeAs('articles', $filePrimaryName, 'public');
+
+        if ($request->hasFile('file_secondary')) {
+            File::delete(public_path('attachments/' . $article->file_secondary));
+            $fileSecondaryExtension = $request->file_secondary->getClientOriginalExtension();
+            $fileSecondaryName = $article->code . "." . $fileSecondaryExtension;
+            $request->file_secondary->storeAs('attachments', $fileSecondaryName, 'public');
+        }
+
+        $article->update([
+
+            'title' => $request['title'],
+            'title_en' => $request['title_en'],
+            'summary' => $request['summary'],
+            'summary_en' => $request['summary_en'],
+            'file_primary' => $filePrimaryName,
+            'file_secondary' => $fileSecondaryName,
+            'status' => ArticleStatus::EditedReview,
+            'writer_des_juror'=>$request['writer_des_juror'],
+        ]);
+        if (is_array($writers) && count($writers) > 0) {
+            $writers = array_merge($writers, [auth()->user()->id]);
+            $article->users()->sync($writers);
+        } else {
+            $article->users()->sync(auth()->user()->id);
+        }
+        $article->keywords()->sync($request['keywords_id']);
+
+
+
+
+
+        return redirect()->back()->with('article_success','مقاله با موفقیت ویرایش شد.');
+
     }
 }
 

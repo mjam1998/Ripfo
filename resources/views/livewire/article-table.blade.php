@@ -1,6 +1,10 @@
 <div>
 
     <div class="row mb-2">
+        @if(session()->has('article-cancel-message'))
+            <p class="alert alert-danger">{{session('article-cancel-message')}}</p>
+        @endif
+
         <div class="col-md-9">
             <input
                 type="text"
@@ -53,10 +57,24 @@
                     <a href="{{ route('writer.article.detail', $article->code) }}" class="btn btn-sm btn-primary">
                         جزئیات
                     </a>
+                    @if($article->status==\App\Enums\ArticleStatus::SendedReview
+                       ||$article->status==\App\Enums\ArticleStatus::NeedReSend
+                       ||$article->status==\App\Enums\ArticleStatus::NeedEdit
+                       ||$article->status==\App\Enums\ArticleStatus::EditedReview
+                     )
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-primary"
+                            style="background-color: red;color: white;"
+                            onclick="cancelArticle('{{ route('writer.article.cancel', $article->code) }}')">
+                            لغو مقاله
+                        </button>
+                        <form id="cancel-article-form"  method="POST" style="display:none;">
+                            @csrf
+                        </form>
 
-                    <a href="{{ route('writer.article.cancel', $article->code) }}" class="btn btn-sm btn-primary"  style="background-color: red;color: white;"  onclick="return confirm('آیا مطمئن هستید؟')">
-                        لغو مقاله
-                    </a>
+                    @endif
+
                 </td>
 
             </tr>
@@ -67,4 +85,26 @@
     {{ $articles->links() }} <!-- صفحه‌بندی Bootstrap -->
 </div>
 
+@push('scripts')
+    <script>
+        function cancelArticle(url) {
+            Swal.fire({
+                title: 'آیا مطمئن هستید؟',
+                text: 'این عملیات قابل بازگشت نیست!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'بله، لغو شود',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.getElementById('cancel-article-form');
+                    form.action = url;
+                    form.submit();
+                }
+            });
+        }
+    </script>
 
+@endpush

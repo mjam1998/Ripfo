@@ -32,6 +32,7 @@ Route::prefix('/panel')->middleware(['auth', 'role:writer|juror'])->group(functi
     Route::get('/article/download/primary/{code}',[WriterController::class,'articleDownload'])->name('writer.article.download');
     Route::get('/article/download/secondary/{code}',[WriterController::class,'articleDownloadSecond'])->name('writer.article.download.second');
     Route::get('/article/download/juror/{code}',[WriterController::class,'articleDownloadJuror'])->name('writer.article.download.juror');
+    Route::post('/article/edit/{article}',[WriterController::class,'articleEdit'])->name('writer.article.edit');
 
     Route::get('/logout',[WriterController::class,'logout'])->name('writer.logout');
 

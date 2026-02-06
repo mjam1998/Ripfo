@@ -123,6 +123,7 @@
     <script src="{{asset('userpanel/select2/jquery-3.6.0.min.js')}}"></script>
     <script src="{{asset('userpanel/choises/choices.min.js')}}"></script>
     <script src="{{asset('userpanel/list/list.js')}}"></script>
+    <script src="{{asset('userpanel/sweetalert/sweetalert.js')}}"></script>
     @livewireScripts
     <script>
 
