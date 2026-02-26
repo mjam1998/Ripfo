@@ -43,7 +43,7 @@
         <ul>
 
             <li><a href="{{route('writer.index')}}"  class=""><i class="bi bi-vector-pen"></i> داشبورد نویسندگی</a></li>
-            <li><a href="{{route('writer.article')}}"  class=""><i class="bi bi-file-text"></i> ثبت مقاله جدید</a></li>
+            <li><a href="{{route('writer.article.create.step-1')}}"  class=""><i class="bi bi-file-text"></i> ثبت مقاله جدید</a></li>
             <li class="has-submenu">
                 <a href="javascript:void(0)" class="menu-toggle">
                     <i class="bi bi-layout-text-sidebar"></i> لیست مقالات نویسندگی

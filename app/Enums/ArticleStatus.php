@@ -4,17 +4,21 @@ namespace App\Enums;
 
 enum ArticleStatus:int
 {
-    case SendedReview=0;
-    case NeedReSend=1;
-    case NeedEdit=2;
-    case EditedReview=3;
-    case Cancel=4;
-    case AcceptedFinalReview=5;
-    case Accepted=6;
-    case Rejected=7;
+    case writing = 0;
+    case waitingAcceptCoWriters=1;
+    case SendedReview=2;
+    case NeedReSend=3;
+    case NeedEdit=4;
+    case EditedReview=5;
+    case Cancel=6;
+    case AcceptedFinalReview=7;
+    case Accepted=8;
+    case Rejected=9;
     public function falabel(): string
     {
         return match ($this) {
+            self::waitingAcceptCoWriters  => ' منتطر تایید نویسندگان همکار',
+            self::writing  => ' در حال تکمیل',
             self::SendedReview  => ' ارسال شده/در حال بررسی',
             self::NeedReSend  => ' نیازمند ارسال دوباره',
             self::NeedEdit => ' نیازمند بازنگری',

@@ -15,8 +15,12 @@ class Article extends Model
       'code',
       'title',
       'title_en',
+        'step',
+        'ai_name',
+        'ai_description',
       'summary',
       'summary_en',
+        'juror_file_secondary',
       'doi',
       'file_primary',
       'file_secondary',
@@ -27,17 +31,20 @@ class Article extends Model
         'juror_des_admin',
         'visitor_number',
         'status',
-        'period_number_pages'
+        'period_number_pages',
+        'user_id',
+        'is_confirm_cowriters'
 
 
     ];
     protected $casts = [
       'status'=>ArticleStatus::class,
+        'is_confirm_cowriters'=>'boolean'
     ];
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('sort','is_confirm');
     }
     public function periodNumber(){
         return $this->belongsTo(PeriodNumber::class);
@@ -55,5 +62,9 @@ class Article extends Model
     public function keywords()
     {
         return $this->belongsToMany(Keyword::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

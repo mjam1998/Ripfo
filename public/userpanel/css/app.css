@@ -1498,3 +1498,38 @@ label.required::after {
     z-index: 2;
     background: #a89e45;
 }
+.step-circle {
+    width: 38px;
+    height: 38px;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.step-label {
+    font-size: 11px !important;
+    white-space: nowrap;
+}
+
+/* موبایل */
+@media (max-width: 576px) {
+    .step-circle {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+    .step-label {
+        font-size: 9px !important;
+    }
+    .progress-wrapper {
+        -webkit-overflow-scrolling: touch;
+    }
+    /* اسکرول‌بار زیبا */
+    .progress-wrapper::-webkit-scrollbar {
+        height: 3px;
+    }
+    .progress-wrapper::-webkit-scrollbar-thumb {
+        background: #dee2e6;
+        border-radius: 3px;
+    }
+}

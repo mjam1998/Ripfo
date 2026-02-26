@@ -92,10 +92,14 @@ class User extends Authenticatable
     }
     public function articles()
     {
-        return $this->belongsToMany(Article::class);
+        return $this->belongsToMany(Article::class)->withPivot('sort','is_confirm');
     }
     public function jurorArticles()
     {
         return $this->hasMany(Article::class, 'juror_id');
+    }
+    public function articlePrimaries()
+    {
+       return $this->hasMany(Article::class);
     }
 }
