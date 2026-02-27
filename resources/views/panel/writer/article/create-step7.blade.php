@@ -1,6 +1,7 @@
 @extends('panel.layout.master')
 
 @section('content')
+
     @php
         $steps = [
             1 => 'عنوان‌ها',
@@ -84,6 +85,7 @@
                     </div>
                     @endforeach
 
+
                 </div>
             </div>
 
@@ -100,25 +102,67 @@
             @endif
 
             <div class="panel-body mt-4">
-                <form action="{{ route('writer.article.update.step-1', ['article' => $article]) }}" method="POST">
+                <form action="{{ route('writer.article.store.step-7', ['article' => $article]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label required"> عنوان مقاله</label>
-                                <input type="text" class="form-control mt-2" name="title" value="{{ old('title', $article->title) }}"
 
-                                       required>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label class="control-label required"> عنوان مقاله(انگلیسی)</label>
-                                <input type="text" class="form-control " name="title_en" dir="ltr"
-                                       value="{{ old('title', $article->title_en) }}" required>
+                                <label  class="control-label required" > فایل اصلی مقاله(pdf)</label>
+                                <input type="file" class="form-control mt-2" name="file_primary" value="{{old('file_primary')}}"  >
+                                <span style="font-size: small;color: grey" >فایل خود مقاله با فرمت pdf و حداکثر 10 مگابایت</span>
+                                @if($article->file_primary)
+                                    <div class="mt-3 p-3 rounded-3 border d-flex align-items-center justify-content-between"
+                                         style="background: linear-gradient(135deg, #fff5f5, #ffe8e8); border-color: #f5c2c2 !important;">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                                 style="width:40px; height:40px; background:#dc3545; color:white; font-size:18px; flex-shrink:0;">
+                                                <i class="bi bi-file-earmark-pdf-fill"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold text-danger" style="font-size:13px;">فایل PDF بارگذاری شده</div>
+                                                <div class="text-muted" style="font-size:11px;">فایل قبلی موجود است</div>
+                                            </div>
+                                        </div>
+                                        <a href="{{ route('writer.article.pdf.download', $article) }}"
+                                           class="btn btn-danger btn-sm d-flex align-items-center gap-1 px-3"
+                                           style="border-radius: 20px; font-size:12px;">
+                                            <i class="bi bi-download"></i>
+                                            دانلود
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label  class="control-label required" > فایل اصلی مقاله(word)</label>
+                                <input type="file" class="form-control mt-2" name="file_secondary" value="{{old('file_secondary')}}"  >
+                                <span style="font-size: small;color: grey" >فایل خود مقاله word با فرمت doc,docx و حداکثر 10 مگابایت</span>
+                                @if($article->file_secondary)
+                                    <div class="mt-3 p-3 rounded-3 border d-flex align-items-center justify-content-between"
+                                         style="background: linear-gradient(135deg, #f0f7ff, #ddeeff); border-color: #b8d4f5 !important;">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                                 style="width:40px; height:40px; background:#0d6efd; color:white; font-size:18px; flex-shrink:0;">
+                                                <i class="bi bi-file-earmark-word-fill"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold text-primary" style="font-size:13px;">فایل Word بارگذاری شده</div>
+                                                <div class="text-muted" style="font-size:11px;">فایل قبلی موجود است</div>
+                                            </div>
+                                        </div>
+                                        <a href="{{ route('writer.article.word.download', $article) }}"
+                                           class="btn btn-primary btn-sm d-flex align-items-center gap-1 px-3"
+                                           style="border-radius: 20px; font-size:12px;">
+                                            <i class="bi bi-download"></i>
+                                            دانلود
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
 
 
                         <div class="text-end mt-4">
@@ -135,3 +179,6 @@
     </div>
 
 @endsection
+
+
+

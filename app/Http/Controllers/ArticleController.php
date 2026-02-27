@@ -7,6 +7,7 @@ use App\Enums\Education;
 use App\Enums\Title;
 use App\Models\Article;
 use App\Models\EducationFiled;
+use App\Models\Keyword;
 use App\Models\Required;
 use App\Models\User;
 use App\Rules\Cellphone;
@@ -16,6 +17,9 @@ use App\Rules\PersianNameRule;
 use App\Rules\PhoneRule;
 use App\Rules\UserNameRule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class ArticleController extends Controller
@@ -48,14 +52,19 @@ class ArticleController extends Controller
             ]
         );
         $article=Article::query()->create($data);
+        do {
+            $code ='rep-'. strtolower(Str::random(6));
+        } while (Article::where('code', $code)->exists());
         $article->update([
             'step'=>2,
-            'user_id'=>auth()->id()
+            'user_id'=>auth()->id(),
+            'code'=>$code
         ]);
         $article->users()->attach(auth()->id(), [
             'sort' => 1,
-            'is_confirm' => 1,
+            'is_confirm' => 1
         ]);
+
         return redirect()->route('writer.article.create.step-2',['article'=>$article]);
     }
     public function editStep1(Article $article)
@@ -292,5 +301,301 @@ class ArticleController extends Controller
         }
         return view('panel.writer.article.create-step3',['step' =>3,'article'=>$article]);
     }
+    public function storeStep3(Request $request, Article $article)
+    {
+         $data=$request->validate([
+            'summary'=>[
+                'required',
+                'max:5000',
+                'string',
 
+            ],
+            'summary_en'=>[
+                'required',
+                'max:5000',
+                new englishNameWithSymbolRule(),
+            ],
+        ],[
+            'summary.required' => 'چکیده فارسی مقاله الزامی است.',
+            'summary.string' => 'چکیده فارسی باید به صورت متن باشد.',
+            'summary.max' => 'چکیده فارسی مقاله بیش از حد مجاز طولانی است.',
+
+            'summary_en.required' => 'چکیده انگلیسی مقاله الزامی است.',
+            'summary_en.max' => 'چکیده انگلیسی مقاله بیش از حد مجاز طولانی است.',
+        ]);
+
+         $article->update($data);
+        if ($article->step < 4) {
+            $article->update(['step' => 4]);
+        }
+        return redirect()->route('writer.article.create.step-4',['article'=>$article]);
+    }
+    public function createStep4(Article $article)
+    {
+
+        $article->load('keywords');
+
+        return view('panel.writer.article.create-step4', [
+            'step'    => 4,
+            'article' => $article,
+        ]);
+    }
+
+    public function storeStep4(Request $request, Article $article)
+    {
+
+        $data = $request->validate([
+            'keywords'             => 'required|array|min:1',
+            'keywords.*.title'     => ['required','string','max:100',new PersianNameRule()],
+            'keywords.*.title_en'  =>  ['required','string','max:100',new EnglishNameWithSymbolRule()],
+        ], [
+            'keywords.required'    => 'وارد کردن حداقل یک کلمه کلیدی الزامی است.',
+            'keywords.array'       => 'کلمات کلیدی باید به صورت آرایه ارسال شوند.',
+            'keywords.min'         => 'حداقل یک کلمه کلیدی وارد کنید.',
+
+            'keywords.*.title.required'    => 'عنوان فارسی کلمه کلیدی الزامی است.',
+            'keywords.*.title.max'         => 'عنوان فارسی نباید بیشتر از ۱۰۰ کاراکتر باشد.',
+
+            'keywords.*.title_en.required' => 'عنوان انگلیسی کلمه کلیدی الزامی است.',
+            'keywords.*.title_en.max'      => 'عنوان انگلیسی نباید بیشتر از ۱۰۰ کاراکتر باشد.',
+        ]);
+
+        // پردازش و sync کلمات کلیدی
+        $keywordIds = $this->processKeywords($data['keywords']);
+        $article->keywords()->sync($keywordIds);
+
+        // بروزرسانی step
+        if ($article->step < 5) {
+            $article->update(['step' => 5]);
+        }
+
+        return redirect()->route('writer.article.create.step-5', ['article' => $article]);
+    }
+
+    private function processKeywords(array $keywords): array
+    {
+        $ids = [];
+
+        foreach ($keywords as $kw) {
+            $title    = trim($kw['title'] ?? '');
+            $titleEn  = strtolower(trim($kw['title_en'] ?? ''));
+
+            // اگر هر دو خالی بود رد کن
+            if (empty($title) && empty($titleEn)) {
+                continue;
+            }
+
+            // جستجو بر اساس هر کدام که پر است
+            $keyword = Keyword::where('title', $title)
+                ->orWhere('title_en', $titleEn)
+                ->first();
+
+            if (!$keyword) {
+                $keyword = Keyword::create([
+                    'title'    => $title ?: null,
+                    'title_en' => $titleEn ?: null,
+                ]);
+            }
+
+            $ids[] = $keyword->id;
+        }
+
+        return array_unique($ids);
+    }
+    public function createStep5(Article $article)
+    {
+
+        return view('panel.writer.article.create-step5',['step' =>5,'article'=>$article]);
+    }
+    public function storeStep5(Request $request, Article $article)
+    {
+
+        $data = $request->validate([
+            'juror_offer_name' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'juror_offer_id' => [
+                'nullable',
+                'integer',
+                'min:1',
+                'exists:users,id'
+            ],
+            'juror_offer_mobile' => [
+                'nullable',
+                'string',
+                'max:20',
+                new Cellphone()
+            ],
+            'juror_offer_email' => [
+                'nullable',
+                'email',
+                'max:255'
+            ],
+        ], [
+            'juror_offer_name.string' => 'نام داور پیشنهادی باید به صورت متن وارد شود.',
+            'juror_offer_name.max' => 'نام داور پیشنهادی نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
+
+            'juror_offer_id.integer' => 'شناسه داور پیشنهادی نامعتبر است.',
+            'juror_offer_id.min' => 'شناسه داور پیشنهادی نامعتبر است.',
+            'juror_offer_id.exists' => 'داور انتخاب‌شده در سیستم وجود ندارد.',
+
+            'juror_offer_mobile.string' => 'شماره موبایل داور پیشنهادی باید به صورت متن وارد شود.',
+            'juror_offer_mobile.max' => 'شماره موبایل داور پیشنهادی نمی‌تواند بیشتر از ۲۰ کاراکتر باشد.',
+
+            'juror_offer_email.email' => 'ایمیل داور پیشنهادی معتبر نیست.',
+            'juror_offer_email.max' => 'ایمیل داور پیشنهادی نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
+        ]);
+
+         if ($request->filled('juror_offer_name') ||$request->filled('juror_offer_mobile')||$request->filled('juror_offer_email')){
+             if (!$request['juror_offer_name'] ||!$request['juror_offer_mobile']||!$request['juror_offer_email']){
+                 return back()->withErrors(['لطفا در صورت وارد کردن نام داور پیشنهادی تمام موارد نظیر موبایل و ایمیل داور پیشنهادی را وارد کنید.']);
+             }
+         }
+
+         if (!$request['juror_offer_id']) {
+             $data['juror_offer_id']=null;
+         }
+            $article->update($data);
+
+
+
+        if ($article->step < 6) {
+            $article->update(['step' => 6]);
+        }
+        return redirect()->route('writer.article.create.step-6',['article'=>$article]);
+    }
+    public function createStep6(Article $article)
+    {
+
+        return view('panel.writer.article.create-step6',['step' =>6,'article'=>$article]);
+    }
+    public function storeStep6(Request $request, Article $article)
+    {
+        $data = $request->validate([
+            'ai_name' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'ai_description' => [
+                'nullable',
+                'string',
+                'max:5000',
+            ],
+        ], [
+            'ai_name.string' => 'نام هوش مصنوعی باید به صورت متن وارد شود.',
+            'ai_name.max' => 'نام هوش مصنوعی نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
+
+            'ai_description.string' => 'توضیحات هوش مصنوعی باید به صورت متن وارد شود.',
+            'ai_description.max' => 'توضیحات هوش مصنوعی نمی‌تواند بیشتر از ۵۰۰۰ کاراکتر باشد.',
+        ]);
+        if ($request->filled('ai_name') ||$request->filled('ai_description')){
+            if (!$request['ai_description'] ||!$request['ai_description']){
+                return back()->withErrors(['لطفا در صورت استفاده از هوش مصنوعی تمام فیلد ها را وارد کنید.']);
+            }
+        }
+
+        $article->update($data);
+        if ($article->step < 7) {
+            $article->update(['step' => 7]);
+        }
+        return redirect()->route('writer.article.create.step-7',['article'=>$article]);
+    }
+    public function createStep7(Article $article)
+    {
+
+        return view('panel.writer.article.create-step7',['step' =>7,'article'=>$article]);
+    }
+    public function storeStep7(Request $request, Article $article)
+    {
+
+        $data = $request->validate([
+            'file_primary' => [
+                'nullable',
+                'file',
+                'mimes:pdf',
+                'max:10240',
+            ],
+            'file_secondary' => [
+                'nullable',
+                'file',
+                'max:10240',
+            ],
+
+        ], [
+            // فایل اصلی (PDF)
+
+            'file_primary.file' => 'فایل اصلی  pdf باید یک فایل معتبر باشد.',
+            'file_primary.mimes' => 'فایل pdf باید با فرمت PDF باشد.',
+            'file_primary.max' => 'حجم فایل اصلی  pdf نباید بیشتر از ۱۰ مگابایت باشد.',
+
+            // فایل ثانویه (Word)
+
+            'file_secondary.file' => 'فایل word باید یک فایل معتبر باشد.',
+
+            'file_secondary.max' => 'حجم فایل word نباید بیشتر از ۱۰ مگابایت باشد.',
+        ]);
+
+        if(!$article->file_primary && !$request->hasFile('file_primary') ){
+            return back()->withErrors(['فایل pdf  برای مقاله یافت نشد لطفا  فایل را اپلود کنید.']);
+        }
+        if( !$article->file_secondary && !$request->hasFile('file_secondary')){
+            return back()->withErrors(['فایل word برای مقاله یافت نشد لطفا  فایل را اپلود کنید.']);
+        }
+        $code=$article->code;
+
+        if ($request->hasFile('file_primary')) {
+            if ($article->file_primary) {
+                Storage::disk('public')->delete('articles-pdf/' . $article->file_primary);
+            }
+            $filePrimaryExtension = $data['file_primary']->getClientOriginalExtension();
+            $filePrimaryName = $code . "." . $filePrimaryExtension;
+            $request->file_primary->storeAs('articles-pdf', $filePrimaryName, 'public');
+            $article->update([
+                'file_primary' => $filePrimaryName,
+            ]);
+        }
+
+
+        if ($request->hasFile('file_secondary')){
+            $extension = strtolower($request->file('file_secondary')->getClientOriginalExtension());
+            if (!in_array($extension, ['doc', 'docx'])) {
+                return back()->withErrors(['file_secondary' => 'فایل word باید با فرمت doc یا docx باشد.']);
+            }
+            if ($article->file_secondary) {
+                Storage::disk('public')->delete('articles-word/' . $article->file_secondary);
+            }
+            $fileSecondaryExtension = $data['file_secondary']->getClientOriginalExtension();
+            $fileSecondaryName = $code . "." . $fileSecondaryExtension;
+            $request->file_secondary->storeAs('articles-word', $fileSecondaryName, 'public');
+            $article->update([
+                'file_secondary' => $fileSecondaryName,
+            ]);
+        }
+
+
+
+
+
+
+        if ($article->step < 8) {
+            $article->update(['step' => 8]);
+        }
+        return redirect()->route('writer.article.create.step-8',['article'=>$article]);
+    }
+    public function articlePdfDownload(Article $article)
+    {
+        return Storage::disk('public')->download('articles-pdf/' . $article->file_primary);
+    }
+    public function articleWordDownload(Article $article)
+    {
+        return Storage::disk('public')->download('articles-word/' . $article->file_secondary);
+    }
+    public function createStep8(Article $article)
+    {
+
+        return view('panel.writer.article.create-step8',['step' =>8,'article'=>$article]);
+    }
 }

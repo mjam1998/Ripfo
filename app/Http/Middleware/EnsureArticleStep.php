@@ -55,6 +55,7 @@ class EnsureArticleStep
             ArticleStatus::SendedReview,
             ArticleStatus::EditedReview,
             ArticleStatus::Cancel,
+            ArticleStatus::waitingAcceptCoWriters,
             ArticleStatus::AcceptedFinalReview,
             ArticleStatus::Accepted,
             ArticleStatus::Rejected,

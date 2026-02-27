@@ -6,10 +6,11 @@
             1 => 'عنوان‌ها',
             2 => 'نویسنده ها',
              3 => 'چکیده',
-            4 => 'داور پیشنهادی',
-            5 => 'هوش مصنوعی',
-            6 => 'فایل ها',
-             7 => 'تکمیل ارسال',
+              4 => 'کلمات کلیدی',
+            5 => 'داور پیشنهادی',
+            6 => 'هوش مصنوعی',
+            7 => 'فایل ها',
+             8 => 'تکمیل ارسال',
         ];
     @endphp
 
@@ -17,74 +18,10 @@
 
     <div class="profile-content ">
         <div class="profile-section active">
-            <h3 class="section-title"><i class="bi bi-file-text"></i> ثبت مقاله جدید</h3>
+            <h3 class="section-title"><i class="bi bi-file-text"></i> ثبت مقاله </h3>
 
 
-         {{--   <div class="mb-5">
-                <div class="progress-wrapper" style="overflow-x: auto; padding-bottom: 8px;">
-                    <div class="d-flex justify-content-between align-items-center position-relative"
-                         style="min-width: 480px;">
 
-                    --}}{{-- خط پس‌زمینه --}}{{--
-                        <div class="position-absolute top-50 start-0 w-100 translate-middle-y"
-                             style="height:4px; background:#e9ecef; z-index:1;"></div>
-
-                    --}}{{-- خط فعال --}}{{--
-                        <div class="position-absolute top-50 start-0 translate-middle-y"
-                             style="height:4px; background:#198754; width: {{ ($step-1)/(count($steps)-1)*100 }}%; z-index:2; transition: width .4s ease;"></div>
-
-
-                    @foreach($steps as $key => $label)
-
-                        @php
-
-                            $isClickable = $key<= $article->step ; // فقط مراحل طی شده قابل کلیک
-
-          if ($key == 1) {
-        // اگر article موجوده یعنی داریم ویرایش می‌کنیم
-        $url = isset($article)
-            ? route('writer.article.edit.step-1', ['article' => $article])
-            : route('writer.article.create.step-1');
-    } else {
-        $url = isset($article)
-            ? route('writer.article.create.step-' . $key, ['article' => $article])
-            : '#';
-    }
-                        @endphp
-
-                            <div class="text-center position-relative flex-shrink-0"
-                                 style="z-index:3; width: calc(100% / {{ count($steps) }});">
-
-                            @if($isClickable)
-                                <a href="{{$url }} "
-                                   class="text-decoration-none">
-                                    @endif
-
-                                    <div class="
-            rounded-circle mx-auto d-flex align-items-center justify-content-center
-            {{ $step > $key ? 'bg-success text-white' : ($step == $key ? 'bg-primary text-white shadow' : 'bg-light text-muted border') }}
-        "
-                                         style="width:40px; height:40px; font-weight:bold;
-             {{ $isClickable ? 'cursor:pointer;' : 'opacity:.6;' }}">
-                                        {{ $key }}
-                                    </div>
-
-                                    <div class="mt-2 small
-            {{ $step == $key ? 'fw-bold text-primary' : 'text-muted' }}">
-                                        {{ $label }}
-                                    </div>
-
-                                    @if($isClickable)
-                                </a>
-                            @endif
-
-                        </div>
-
-                    @endforeach
-
-                </div>
-            </div>
-            </div>--}}
             <div class="mb-5">
                 {{-- Wrapper برای اسکرول موبایل --}}
                 <div class="progress-wrapper" style="overflow-x: auto; padding-bottom: 8px;">

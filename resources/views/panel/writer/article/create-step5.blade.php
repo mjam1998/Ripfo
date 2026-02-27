@@ -1,6 +1,7 @@
 @extends('panel.layout.master')
 
 @section('content')
+
     @php
         $steps = [
             1 => 'عنوان‌ها',
@@ -84,6 +85,7 @@
                     </div>
                     @endforeach
 
+
                 </div>
             </div>
 
@@ -100,26 +102,52 @@
             @endif
 
             <div class="panel-body mt-4">
-                <form action="{{ route('writer.article.update.step-1', ['article' => $article]) }}" method="POST">
+                <form action="{{ route('writer.article.store.step-5', ['article' => $article]) }}" method="POST">
                     @csrf
-                    @method('PUT')
+
                     <div class="row g-3">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="control-label required"> عنوان مقاله</label>
-                                <input type="text" class="form-control mt-2" name="title" value="{{ old('title', $article->title) }}"
+                                <label class="control-label">داور پیشنهادی</label>
+                                <select id="juror_offer_id"
+                                        class="form-control"
+                                        name="juror_offer_id"
+                                          >
+                                    @if(isset($article) && $article->juror_offer_id)
+                                        <option value="{{ $article->juror_offer_id }}" selected>
+                                            {{ $article->jurorOffer->title->falabel() }}  {{ $article->jurorOffer->name ?? '' }}   {{ $article->jurorOffer->organ }}
+                                        </option>
+                                    @endif
+                                </select>
+                                <span style="font-size: small; color: grey">برای جست جو در بین داوران سامانه تایپ کنید اگر در لیست نیست مشخصات داور را وارد کنید.</span>
 
-                                       required>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label "> نام داور پیشنهادی</label>
+                                <input type="text" class="form-control " name="juror_offer_name"
+                                       value="{{ old('juror_offer_name', $article->juror_offer_name) }}" >
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="control-label required"> عنوان مقاله(انگلیسی)</label>
-                                <input type="text" class="form-control " name="title_en" dir="ltr"
-                                       value="{{ old('title', $article->title_en) }}" required>
+                                <label class="control-label ">موبایل </label>
+                                <input type="text" class="form-control " name="juror_offer_mobile"
+                                       value="{{ old('juror_offer_mobile', $article->juror_offer_mobile) }}" >
                             </div>
                         </div>
-
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label ">ایمیل</label>
+                                <input type="text" class="form-control " name="juror_offer_email"
+                                       value="{{ old('juror_offer_email', $article->juror_offer_email) }}" >
+                            </div>
+                        </div>
 
                         <div class="text-end mt-4">
                             <button type="submit" class="btn btn-primary btn-sm px-4">
@@ -135,3 +163,71 @@
     </div>
 
 @endsection
+
+@push('scripts')
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const jurorSelect = document.getElementById('juror_offer_id');
+
+
+
+            const jurorChoices = new Choices(jurorSelect, {
+                removeItemButton: true,
+                searchEnabled: true,
+                shouldSort: false,
+                rtl: true,
+                placeholderValue: 'جستجوی داور...',
+                noResultsText: 'نتیجه‌ای یافت نشد',
+                noChoicesText: 'برای جستجو تایپ کنید',
+            });
+
+
+
+            let controller;
+
+            jurorSelect.addEventListener('search', function (event) {
+                const searchTerm = event.detail.value;
+
+                if (searchTerm.length < 2) return;
+
+                if (controller) controller.abort();
+                controller = new AbortController();
+
+                fetch(`{{ route('writer.jurors.search') }}?q=${encodeURIComponent(searchTerm)}`, {
+                    signal: controller.signal
+                })
+                    .then(res => res.json())
+                    .then(data => {
+
+                        // ✅ انتخاب فعلی حفظ شود
+                        const selectedValue = jurorChoices.getValue(true);
+
+                        jurorChoices.clearChoices();
+
+
+
+                        // ✅ نتایج سرور
+                        jurorChoices.setChoices(data, 'value', 'label', false);
+
+                        // ✅ restore selection اگر قبلاً انتخاب شده
+                        if (selectedValue) {
+                            jurorChoices.setChoiceByValue(selectedValue);
+                        }
+                    })
+                    .catch(err => {
+                        if (err.name !== 'AbortError') {
+                            console.error(err);
+                        }
+                    });
+            });
+
+        });
+    </script>
+
+
+
+
+@endpush

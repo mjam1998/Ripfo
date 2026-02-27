@@ -33,7 +33,10 @@ class Article extends Model
         'status',
         'period_number_pages',
         'user_id',
-        'is_confirm_cowriters'
+        'is_confirm_cowriters',
+        'juror_offer_mobile',
+        'juror_offer_email',
+        'juror_offer_name'
 
 
     ];

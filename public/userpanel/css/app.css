@@ -56,7 +56,7 @@ body {
     background: #a89e45;
     border-left: 1px solid var(--light-gray);
     padding: 25px 20px;
-    z-index: 1000;
+
     box-shadow: var(--box-shadow);
     transition: var(--transition);
     display: flex;
@@ -1532,4 +1532,11 @@ label.required::after {
         background: #dee2e6;
         border-radius: 3px;
     }
+}
+#articlePreviewModal {
+    z-index: 1200 !important;
+}
+
+.modal-backdrop {
+    z-index: 1150 !important;
 }

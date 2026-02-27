@@ -6,10 +6,11 @@
             1 => 'عنوان‌ها',
             2 => 'نویسنده ها',
              3 => 'چکیده',
-            4 => 'داور پیشنهادی',
-            5 => 'هوش مصنوعی',
-            6 => 'فایل ها',
-             7 => 'تکمیل ارسال',
+              4 => 'کلمات کلیدی',
+            5 => 'داور پیشنهادی',
+            6 => 'هوش مصنوعی',
+            7 => 'فایل ها',
+             8 => 'تکمیل ارسال',
         ];
     @endphp
 
@@ -17,7 +18,7 @@
 
     <div class="profile-content ">
         <div class="profile-section active" >
-            <h3 class="section-title"><i class="bi bi-file-text"></i> ثبت مقاله جدید</h3>
+            <h3 class="section-title"><i class="bi bi-file-text"></i> ثبت مقاله </h3>
 
 
 

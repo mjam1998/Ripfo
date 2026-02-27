@@ -1,6 +1,7 @@
 @extends('panel.layout.master')
 
 @section('content')
+
     @php
         $steps = [
             1 => 'عنوان‌ها',
@@ -84,6 +85,7 @@
                     </div>
                     @endforeach
 
+
                 </div>
             </div>
 
@@ -100,25 +102,26 @@
             @endif
 
             <div class="panel-body mt-4">
-                <form action="{{ route('writer.article.update.step-1', ['article' => $article]) }}" method="POST">
+                <form action="{{ route('writer.article.store.step-6', ['article' => $article]) }}" method="POST">
                     @csrf
-                    @method('PUT')
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label required"> عنوان مقاله</label>
-                                <input type="text" class="form-control mt-2" name="title" value="{{ old('title', $article->title) }}"
 
-                                       required>
-                            </div>
-                        </div>
+                    <div class="row g-3">
+                        <div class="alert alert-warning">در صورت استفاده از هوش مصنوعی در مقاله خود برای عدم رد شدن مقاله لطفا نام مدل هوش مصنوعی و میران استفاده از آن را وارد کنید.</div>
                         <div class="col-md-4">
+
                             <div class="form-group">
-                                <label class="control-label required"> عنوان مقاله(انگلیسی)</label>
-                                <input type="text" class="form-control " name="title_en" dir="ltr"
-                                       value="{{ old('title', $article->title_en) }}" required>
+                                <label class="control-label "> نام مدل یا ابزار هوش مصنوعی</label>
+                                <input type="text" class="form-control " name="ai_name"
+                                       value="{{ old('ai_name', $article->ai_name) }}" >
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label  class="control-label " > توضیح در مورد میزان استفاده</label>
+                                <textarea type="text" class="form-control auto-resize" name="ai_description" rows="3" >{{old('ai_description',$article->ai_description)}}</textarea>
+                            </div>
+                        </div>
+
 
 
                         <div class="text-end mt-4">
@@ -135,3 +138,5 @@
     </div>
 
 @endsection
+
+

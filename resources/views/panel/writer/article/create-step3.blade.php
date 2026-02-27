@@ -7,10 +7,11 @@
             1 => 'عنوان‌ها',
             2 => 'نویسنده ها',
              3 => 'چکیده',
-            4 => 'داور پیشنهادی',
-            5 => 'هوش مصنوعی',
-            6 => 'فایل ها',
-             7 => 'تکمیل ارسال',
+              4 => 'کلمات کلیدی',
+            5 => 'داور پیشنهادی',
+            6 => 'هوش مصنوعی',
+            7 => 'فایل ها',
+             8 => 'تکمیل ارسال',
         ];
     @endphp
 
@@ -18,7 +19,7 @@
 
     <div class="profile-content ">
         <div class="profile-section active">
-            <h3 class="section-title"><i class="bi bi-file-text"></i> ثبت مقاله جدید</h3>
+            <h3 class="section-title"><i class="bi bi-file-text"></i> ثبت مقاله </h3>
 
 
             <div class="mb-5">
@@ -101,23 +102,20 @@
             @endif
 
             <div class="panel-body mt-4">
-                <form action="{{ route('writer.article.update.step-1', ['article' => $article]) }}" method="POST">
+                <form action="{{ route('writer.article.store.step-3', ['article' => $article]) }}" method="POST">
                     @csrf
-                    @method('PUT')
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label required"> عنوان مقاله</label>
-                                <input type="text" class="form-control mt-2" name="title" value="{{ old('title', $article->title) }}"
 
-                                       required>
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label  class="control-label required" > خلاصه مقاله</label>
+                                <textarea type="text" class="form-control auto-resize" name="summary" rows="3" >{{old('summary',$article->summary)}}</textarea>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label class="control-label required"> عنوان مقاله(انگلیسی)</label>
-                                <input type="text" class="form-control " name="title_en" dir="ltr"
-                                       value="{{ old('title', $article->title_en) }}" required>
+                                <label  class="control-label required" > خلاصه مقاله(انگلیسی)</label>
+                                <textarea type="text" class="form-control auto-resize" dir="ltr" name="summary_en" rows="3" >{{old('summary_en',$article->summary_en)}}</textarea>
                             </div>
                         </div>
 
@@ -136,3 +134,45 @@
     </div>
 
 @endsection
+@push('scripts')
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const textareas = document.querySelectorAll('.auto-resize');
+
+            textareas.forEach(textarea => {
+                const resize = () => {
+                    textarea.style.height = 'auto';
+                    textarea.style.height = textarea.scrollHeight + 'px';
+                };
+
+                textarea.addEventListener('input', resize);
+
+                // برای زمانی که old('summary') مقدار دارد
+                resize();
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const jurorSelect = document.getElementById('juror_offer_id');
+            const jurorNameWrapper = document.getElementById('jurorNameWrapper');
+            const jurorNameInput = jurorNameWrapper.querySelector('input');
+
+            function toggleJurorName() {
+                if (jurorSelect.value === '0') {
+                    jurorNameWrapper.classList.remove('d-none');
+
+                } else {
+                    jurorNameWrapper.classList.add('d-none');
+
+                    jurorNameInput.value = '';
+                }
+            }
+
+            // هنگام تغییر select
+            jurorSelect.addEventListener('change', toggleJurorName);
+
+            // برای زمانی که صفحه با old() رفرش می‌شود
+            toggleJurorName();
+        });
+    </script>
+@endpush

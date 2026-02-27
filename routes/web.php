@@ -57,11 +57,16 @@ Route::prefix('/panel')->middleware(['auth', 'role:writer|juror'])->group(functi
     Route::get('/articles/{article}/step-7', [ArticleController::class, 'createStep7'])->name('writer.article.create.step-7')->middleware('step:7');
     Route::post('/articles/{article}/step-7', [ArticleController::class, 'storeStep7'])->name('writer.article.store.step-7')->middleware('step:7');
 
+    Route::get('/articles/{article}/step-8', [ArticleController::class, 'createStep8'])->name('writer.article.create.step-8')->middleware('step:8');
+    Route::post('/articles/{article}/step-8', [ArticleController::class, 'storeStep8'])->name('writer.article.store.step-8')->middleware('step:8');
+
     Route::patch('articles/{article}/writers/{user}/sort', [ArticleController::class, 'updateWriterSort'])
         ->name('writer.article.writer.sort')->middleware('step:2');
     Route::delete('articles/{article}/writers/{user}/delete', [ArticleController::class, 'deleteWriterArticle'])
         ->name('writer.article.writer.delete')->middleware('step:2');
 
+    Route::get('article/download/pdf/{article}', [ArticleController::class, 'articlePdfDownload'])->name('writer.article.pdf.download')->middleware('step:8');
+    Route::get('article/download/word/{article}', [ArticleController::class, 'articleWordDownload'])->name('writer.article.word.download')->middleware('step:8');
 
     Route::get('/logout',[WriterController::class,'logout'])->name('writer.logout');
 

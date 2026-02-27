@@ -205,7 +205,46 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
     </script>
+    <script>
 
+        document.addEventListener('DOMContentLoaded', function () {
+            const textareas = document.querySelectorAll('.auto-resize');
+
+            textareas.forEach(textarea => {
+                const resize = () => {
+                    textarea.style.height = 'auto';
+                    textarea.style.height = textarea.scrollHeight + 'px';
+                };
+
+                textarea.addEventListener('input', resize);
+
+                // برای زمانی که old('summary') مقدار دارد
+                resize();
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const jurorSelect = document.getElementById('juror_offer_id');
+            const jurorNameWrapper = document.getElementById('jurorNameWrapper');
+            const jurorNameInput = jurorNameWrapper.querySelector('input');
+
+            function toggleJurorName() {
+                if (jurorSelect.value === '0') {
+                    jurorNameWrapper.classList.remove('d-none');
+
+                } else {
+                    jurorNameWrapper.classList.add('d-none');
+
+                    jurorNameInput.value = '';
+                }
+            }
+
+            // هنگام تغییر select
+            jurorSelect.addEventListener('change', toggleJurorName);
+
+            // برای زمانی که صفحه با old() رفرش می‌شود
+            toggleJurorName();
+        });
+    </script>
     @stack('scripts')
 
 </div>

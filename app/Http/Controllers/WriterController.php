@@ -157,6 +157,7 @@ class WriterController extends Controller
 
         return User::role('juror')
             ->where('id', '!=', auth()->id())
+            ->where('is_verified',true)
             ->when($q, function ($query) use ($q) {
                 $query->where(function ($q2) use ($q) {
                     $q2->where('name', 'like', "%{$q}%")
